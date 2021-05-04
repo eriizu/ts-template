@@ -1,0 +1,61 @@
+{
+    "name": "ts-templace",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "tsc",
+        "start": "node --unhandled-rejections=strict dist/index.js",
+        "dev": "ts-node src/index.ts"
+    },
+    "description": "A typescript projet template",
+    "main": "src/index.ts",
+    "license": "MIT",
+    "private": false,
+    "dependencies": {},
+    "devDependencies": {
+        "@types/jest": "^25.2.3",
+        "@types/mongoose": "^5.7.21",
+        "@types/node": "^13.13.5",
+        "jest": "^26.0.1",
+        "jest-junit": "^10.0.0",
+        "ts-jest": "^26.0.0",
+        "ts-node": "^9.1.1",
+        "typescript": "^3.8.3"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.ts?$": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+        "testPathIgnorePatterns": [
+            "/lib/",
+            "/node_modules/"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "js",
+            "json"
+        ],
+        "collectCoverage": false,
+        "collectCoverageFrom": [
+            "src/**/*.{ts,tsx}"
+        ],
+        "coverageReporters": [
+            "html",
+            "json"
+        ],
+        "reporters": [
+            "default",
+            "jest-junit"
+        ],
+        "testEnvironment": "node"
+    },
+    "jest-junit": {
+        "suiteName": "jest tests",
+        "outputDirectory": "./reports/jest",
+        "outputName": "junit.xml",
+        "classNameTemplate": "{classname}",
+        "titleTemplate": "{title}",
+        "ancestorSeparator": " › ",
+        "usePathForSuiteName": "true"
+    }
+}
