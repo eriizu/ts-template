@@ -4,11 +4,10 @@
     "scripts": {
         "build": "tsc",
         "start": "node --unhandled-rejections=strict dist/index.js",
-        "dev": "ts-node src/index.ts"
+        "dev": "node --require ts-node/register src/index.ts"
     },
     "description": "A typescript projet template",
     "main": "src/index.ts",
-    "license": "MIT",
     "private": false,
     "dependencies": {},
     "devDependencies": {
@@ -17,6 +16,7 @@
         "@types/node": "^13.13.5",
         "jest": "^26.0.1",
         "jest-junit": "^10.0.0",
+        "rethinkdb-ts": "^2.4.10",
         "ts-jest": "^26.0.0",
         "ts-node": "^9.1.1",
         "typescript": "^3.8.3"
