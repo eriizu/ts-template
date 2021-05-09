@@ -1,0 +1,17 @@
+services:
+  db:
+    image: rethinkdb:buster-slim
+    # ports:
+    # - 28015:28015
+    # - 8080:8080
+    # - 29015:29015
+    # command: --initial-password Piou
+  piou:
+    image: eriizu/piou
+    environment:
+      - DISCORD_TOKEN=xxxxxxx
+      - DB_HOST=db
+      - DB_PORT=28015
+    links:
+      - db
+    restart: always
