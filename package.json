@@ -10,7 +10,7 @@
     "main": "src/index.ts",
     "private": false,
     "dependencies": {
-        "discord.js": "^12.5.3"
+        "discord.js": "discordjs/discord.js"
     },
     "devDependencies": {
         "@types/jest": "^25.2.3",
