@@ -5,7 +5,7 @@ import config from "./config";
 
 export interface IPicture {
   link: string;
-  author?: discord.PartialUser;
+  author_tag?: string;
   guild_id: string;
   album_name: string;
   created_on?: Date;
@@ -69,7 +69,7 @@ export class PictureManager {
       console.log("seed complete");
     }
 
-    await this.draw("any");
+    await this.draw("any", "seed");
   }
 
   public async add(pic: IPicture) {
@@ -88,9 +88,9 @@ export class PictureManager {
     console.log("added pic");
   }
 
-  public async draw(guild_id: string): Promise<IPicture | null> {
+  public async draw(guild_id: string, album_name: string): Promise<IPicture | null> {
     await this.ready;
-    let res = await this.table.filter({ guild_id }).sample(1).run(this.conn);
+    let res = await this.table.filter({ guild_id, album_name }).sample(1).run(this.conn);
     console.log("drawn:");
     console.log(res);
     return res.length ? res[0] : null;
