@@ -9,7 +9,9 @@
     "description": "A typescript projet template",
     "main": "src/index.ts",
     "private": false,
-    "dependencies": {},
+    "dependencies": {
+        "discord.js": "^12.5.3"
+    },
     "devDependencies": {
         "@types/jest": "^25.2.3",
         "@types/mongoose": "^5.7.21",
