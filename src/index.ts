@@ -40,15 +40,15 @@ client.on("ready", async () => {
     ],
   };
   // (await client.fetchApplication()).commands.create(commandData);
-  console.log(await client.application?.commands.create(pic_add));
-  console.log(await client.application?.commands.create(pic_draw));
+  // console.log(await client.application?.commands.create(pic_add));
+  // console.log(await client.application?.commands.create(pic_draw));
 });
 
 import config from "./config";
 
 client.login(config.discord.token);
-
 import { PictureManager } from "./Pictures";
+import { Commands } from "./Commands";
 
 r.connect({ server: { host: config.db.host, port: config.db.port } })
   .catch(() => {
@@ -59,6 +59,14 @@ r.connect({ server: { host: config.db.host, port: config.db.port } })
 
     if (conn) {
       let manager = new PictureManager(conn);
+      let processor = new Commands(client, manager);
+
+      await manager.ready;
+      await manager.seed();
+
+      client.on("interaction", async (interaction) => processor.processInteraction(interaction));
+      client.on("message", async (msg) => processor.process(msg));
+
       // console.log(conn);
       // try {
       //   await r.db("test").tableCreate("users").run(conn);
@@ -79,41 +87,6 @@ r.connect({ server: { host: config.db.host, port: config.db.port } })
       //   .run(conn);
 
       // console.log(users);
-      await manager.ready;
-      await manager.seed();
-
-      client.on("interaction", async (interaction) => {
-        // If the interaction isn't a slash command, return
-        if (!interaction.isCommand()) return;
-
-        interaction.defer();
-
-        // Check if it is the correct command
-        if (interaction.commandName === "echo") {
-          // Get the input of the user
-          const input = interaction.options[0].value;
-          // Reply to the command
-          await interaction.reply(`${input}`);
-        } else if (interaction.commandName === "pic") {
-          let res = await manager.draw(interaction.guildID, `${interaction.options[0].value}`);
-          if (res)
-            await interaction.editReply("", { files: [new discord.MessageAttachment(res.link)] });
-          else interaction.editReply(`No such album: "${interaction.options[0].value}". :(`);
-          // await interaction.reply("", {
-          //   files: [new discord.MessageAttachment(res.link)],
-          // });
-        } else if (interaction.commandName === "add") {
-          await manager.add({
-            album_name: `${interaction.options[0].value}`,
-            guild_id: interaction.guildID,
-            author_tag: interaction.user.tag,
-            link: `${interaction.options[1].value}`,
-          });
-          await interaction.editReply("I've saved the following image:", {
-            files: [new discord.MessageAttachment(`${interaction.options[1].value}`)],
-          });
-        }
-      });
 
       // conn.close().then(() => {
       //   console.log("closed");
