@@ -1,6 +1,5 @@
 import { r, RDatum, RTable, RethinkDBErrorType } from "rethinkdb-ts";
 import * as discord from "discord.js";
-import { isRethinkDBError } from "./isRethinkDBError";
 
 export const client = new discord.Client({
   intents: ["GUILDS", "GUILD_INTEGRATIONS", "GUILD_MESSAGES"],
