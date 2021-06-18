@@ -5,7 +5,9 @@
         "build": "tsc",
         "start": "node --unhandled-rejections=strict dist/index.js",
         "dev": "node --require ts-node/register src/index.ts",
-        "test": "jest"
+        "test": "jest",
+        "clean": "rm -vfr node_modules reports",
+        "fclean": "rm -vfr node_modules reports dist"
     },
     "description": "Yet another typescript template",
     "main": "dist/index.js",
