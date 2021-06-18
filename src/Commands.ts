@@ -12,11 +12,11 @@ export class Commands {
 
   private async cmdPictureAdd(msg: discord.Message, args: string[]) {
     if (args.length < 3) {
-      msg.reply("I need one more parameter, the name of the album.");
+      msg.reply("J'ai besoin d'un paramètre supplémentaire, le nom de l'album.");
       return;
     }
     if (!msg.attachments.size) {
-      msg.reply("I need one attachment, the picture to add to the album.");
+      msg.reply("J'ai besoin d'au moins une pièce jointe.");
       return;
     }
     let proms: Promise<void>[] = [];
@@ -32,7 +32,7 @@ export class Commands {
       );
     }
     await Promise.all(proms);
-    return msg.channel.send("I've saved the picture·s you sent me!");
+    return msg.channel.send("Je sauvergardé la ou les images que vous m'avez envoyé !");
   }
 
   private async cmdPictureDraw(msg: discord.Message, args: string[]) {
@@ -40,11 +40,16 @@ export class Commands {
     return await msg.channel.send("", { files: [new discord.MessageAttachment(res.link)] });
   }
 
+  private async cmdDeleteLast(guild_id: string) {
+    this.manager.deleteLast(guild_id);
+  }
+
   async process(msg: discord.Message) {
     if (msg.author.bot) return;
     if (!msg.mentions.has(this.client.user)) return;
 
     console.log("I was mentionned! :>");
+    msg.channel.startTyping();
 
     let args = msg.content.split(" ");
 
@@ -53,12 +58,15 @@ export class Commands {
     try {
       if (args[1] === "add") {
         await this.cmdPictureAdd(msg, args);
+      } else if (args[1] === "delete_last") {
+        await this.cmdDeleteLast(msg.guild.id);
       } else {
         await this.cmdPictureDraw(msg, args);
       }
     } catch (err) {
       console.warn(err);
     }
+    msg.channel.stopTyping();
   }
 
   private async interPictureDraw(interaction: discord.CommandInteraction) {
@@ -66,7 +74,7 @@ export class Commands {
     if (res) {
       await interaction.editReply("", { files: [new discord.MessageAttachment(res.link)] });
     } else {
-      await interaction.editReply(`No such album: "${interaction.options[0].value}". :(`);
+      await interaction.editReply(`L'album "${interaction.options[0].value}" n'existe po. :(`);
     }
   }
 
@@ -84,9 +92,19 @@ export class Commands {
         author_tag: interaction.user.tag,
         link: `${interaction.options[1].value}`,
       });
-      await interaction.editReply("I've saved the following image:", {
-        files: [new discord.MessageAttachment(`${interaction.options[1].value}`)],
-      });
+      await interaction.editReply(
+        "J'ai sauvegardé l'image qui suit ! Si la source est supprimée, l'image ne marchera plus.",
+        {
+          files: [new discord.MessageAttachment(`${interaction.options[1].value}`)],
+        }
+      );
+    } else if (interaction.commandName === "list") {
+      let res = await this.manager.list(interaction.guildID);
+      if (res.length) {
+        await interaction.editReply("*Voici les albums de cette guilde* :\n\n" + res.join("\n"));
+      } else {
+        await interaction.editReply("Vous n'avez pas d'albums par ici. 😖");
+      }
     }
   }
 }

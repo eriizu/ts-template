@@ -44,6 +44,7 @@ export class PictureManager {
 
     try {
       await db.tableCreate(config.db.table_name).run(this.conn);
+      await db.table<IPicture>(config.db.table_name).indexCreate("guild_id").run(this.conn);
     } catch (err) {
       if (isRethinkDBError(err) && err.type == rethink.RethinkDBErrorType.OP_FAILED) {
         console.log("table exists");
@@ -53,6 +54,15 @@ export class PictureManager {
     }
     this.table = db.table(config.db.table_name);
     return;
+  }
+
+  public async deleteLast(guild_id: string) {
+    await this.table
+      .filter({ guild_id })
+      .orderBy(rethink.r.desc("created_on"))
+      .limit(1)
+      .delete()
+      .run(this.conn);
   }
 
   public async seed() {
@@ -94,5 +104,11 @@ export class PictureManager {
     console.log("drawn:");
     console.log(res);
     return res.length ? res[0] : null;
+  }
+
+  public async list(guild_id: string): Promise<string[]> {
+    await this.ready;
+
+    return (await this.table.filter({ guild_id })("album_name").distinct().run(this.conn)).sort();
   }
 }

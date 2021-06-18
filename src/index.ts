@@ -10,35 +10,41 @@ client.on("ready", async () => {
 
   const pic_draw: discord.ApplicationCommandData = {
     name: "pic",
-    description: "Show a random picture in chat.",
+    description: "Affiche une image au pif depuis une de vos collections.",
     options: [
       {
         name: "album",
         type: "STRING",
-        description: "The album in which the pictures will be drawn",
+        description: "La collection depuis laquelle choisir l'image.",
         required: true,
       },
     ],
   };
   const pic_add: discord.ApplicationCommandData = {
     name: "add",
-    description: "Add a picture by URL.",
+    description: "Ajouter une image avec son URL.",
     options: [
       {
         name: "album",
         type: "STRING",
-        description: "The name in witch the picture needs to be added.",
+        description: "La collection où mettre l'image.",
         required: true,
       },
       {
         name: "url",
         type: "STRING",
-        description: "The picture to add.",
+        description: "L'URL de l'image en question.",
         required: true,
       },
     ],
   };
+  const album_list: discord.ApplicationCommandData = {
+    name: "list",
+    description: "Affiche toutes les collections de la guilde.",
+  };
+
   // (await client.fetchApplication()).commands.create(commandData);
+  // console.log(await client.application?.commands.create(album_list));
   // console.log(await client.application?.commands.create(pic_add));
   // console.log(await client.application?.commands.create(pic_draw));
 });
