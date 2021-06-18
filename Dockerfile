@@ -14,7 +14,7 @@ RUN yarn build
 
 FROM node:alpine
 
-RUN apk add --no-cache git
+# RUN apk add --no-cache git
 
 WORKDIR /app
 
