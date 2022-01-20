@@ -1,63 +1,63 @@
 {
-    "name": "ts-templace",
-    "version": "1.0.0",
-    "scripts": {
-        "build": "tsc",
-        "start": "node --unhandled-rejections=strict dist/index.js",
-        "dev": "node --require ts-node/register src/index.ts",
-        "test": "jest",
-        "clean": "rm -vfr node_modules reports",
-        "fclean": "rm -vfr node_modules reports dist"
+  "name": "ts-templace",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --unhandled-rejections=strict dist/index.js",
+    "dev": "node --require ts-node/register src/index.ts",
+    "test": "jest",
+    "clean": "rm -vfr node_modules reports",
+    "fclean": "rm -vfr node_modules reports dist"
+  },
+  "description": "Yet another typescript template",
+  "main": "dist/index.js",
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^15.12.3",
+    "jest": "^27.0.4",
+    "jest-junit": "^10.0.0",
+    "ts-jest": "^27.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.5.4"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
     },
-    "description": "Yet another typescript template",
-    "main": "dist/index.js",
-    "private": false,
-    "dependencies": {},
-    "devDependencies": {
-        "@tsconfig/node16": "^1.0.1",
-        "@types/jest": "^25.2.3",
-        "@types/node": "^15.12.3",
-        "jest": "^27.0.4",
-        "jest-junit": "^10.0.0",
-        "ts-jest": "^27.0.0",
-        "ts-node": "^10.0.0",
-        "typescript": "^4.2.4"
-    },
-    "jest": {
-        "transform": {
-            "^.+\\.ts?$": "ts-jest"
-        },
-        "testRegex": "(/tests/.*|\\.(test|spec))\\.(ts|tsx)$",
-        "testPathIgnorePatterns": [
-            "/lib/",
-            "/node_modules/"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "js",
-            "json"
-        ],
-        "collectCoverage": false,
-        "collectCoverageFrom": [
-            "src/**/*.{ts,tsx}"
-        ],
-        "coverageReporters": [
-            "html",
-            "json"
-        ],
-        "reporters": [
-            "default",
-            "jest-junit"
-        ],
-        "testEnvironment": "node"
-    },
-    "jest-junit": {
-        "suiteName": "jest tests",
-        "outputDirectory": "./reports/jest",
-        "outputName": "junit.xml",
-        "classNameTemplate": "{classname}",
-        "titleTemplate": "{title}",
-        "ancestorSeparator": " › ",
-        "usePathForSuiteName": "true"
-    }
+    "testRegex": "(/tests/.*|\\.(test|spec))\\.(ts|tsx)$",
+    "testPathIgnorePatterns": [
+      "/lib/",
+      "/node_modules/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coverageReporters": [
+      "html",
+      "json"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+    "testEnvironment": "node"
+  },
+  "jest-junit": {
+    "suiteName": "jest tests",
+    "outputDirectory": "./reports/jest",
+    "outputName": "junit.xml",
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
+  }
 }
